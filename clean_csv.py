@@ -4,7 +4,7 @@ import pandas as pd
 df = pd.DataFrame([], columns=['spa_text','origin_details'])
 
 inputfilename='biblia_nt_esp_dhhdk.csv'
-outname = 'from_txt.xlsx'
+outname = 'v2.xlsx'
 outdir = './output'
 
 target = []
@@ -17,32 +17,32 @@ with open(f"v2/{inputfilename}", encoding='latin-1') as f:
 
 books = [
 ['San Mateo',28],
-# ['marcos','MRK',16],
-# ['lucas','LUK',24],
-# ['juan','JHN',21],
-# ['hechos','ACT',28],
-# ['romanos','ROM',16],
-# ['1 corintios','1CO',16],
-# ['2 corintios','2CO',13],
-# ['galatas','GAL',6],
-# ['efesios','EPH',6],
-# ['filipenses','PHP',4],
-# ['colosenses','COL',4],
-# ['1 tesalonicenses','1TH',5],
-# ['2 tesalonicenses','2TH',3],
-# ['1 timoteo','1TI',6],
-# ['2 timoteo','2TI',4],
-# ['tito','TIT',3],
-# ['filemon','PHM',1],
-# ['hebreos','HEB',13],
-# ['santiago','JAS',5],
-# ['1 pedro','1PE',5],
-# ['2 pedro','2PE',3],
-# ['1 juan','1JN',5],
-# ['2 juan','2JN',1],
-# ['3 juan','3JN',1],
-# ['judas','JUD',1],
-# ['apocalipsis','REV',22]
+['San Marcos',16],
+['San Lucas',24],
+['San Juan',21],
+['Hechos',28],
+['Romanos',16],
+['1 Corintios',16],
+['2 Corintios',13],
+['Gálatas',6],
+['Efesios',6],
+['Filipenses',4],
+['Colosenses',4],
+['1 Tesalonicenses',5],
+['2 Tesalonicenses',3],
+['1 Timoteo',6],
+['2 Timoteo',4],
+['Tito',3],
+['Filemón',1],
+['Hebreos',13],
+['Santiago',5],
+['1 Pedro',5],
+['2 Pedro',3],
+['1 Juan',5],
+['2 Juan',1],
+['3 Juan',1],
+['Judas',1],
+['Apocalipsis',22]
 ]
 
 for book in books:
@@ -75,3 +75,10 @@ for book in books:
 #     for line in lines: 
 #         f.write(line)
 #         f.write('\n')
+
+if not os.path.exists(outdir):
+    os.mkdir(outdir)
+
+fullname = os.path.join(outdir, outname)   
+
+df.to_excel(fullname)
