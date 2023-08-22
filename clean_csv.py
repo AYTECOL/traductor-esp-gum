@@ -45,31 +45,81 @@ books = [
 ['Apocalipsis',22]
 ]
 
-for book in books:
-    book_name = book[0]
-    book_chapters = book[1]
-    book_chapter_indexes = []
-    for book_chapter in range(1, book_chapters+1):
-        book_title = f'{book_name} {book_chapter}'
-        book_chapter_indexes.append(target.index(book_title))
+trans_dict = {
+             ord('-'): '',
+             ord('–'): '',
+             ord('—'): '',
+             ord('“'): '"',
+             ord('”'): '"',
+            #  ord('.'): '.',
+            #  ord('!'): '',
+            #  ord('¡'): '',
+            #  ord('?'): '',
+            #  ord('¿'): '',
+             ord('’'): '"',
+             ord('‘'): '"',
+             ord("'"): '"',
+             ord('|'): '',
+             ord('#'): '', 
+             ord('$'): '',
+             ord('%'): '', 
+             ord('&'): '',
+            #  ord(';'): ',',
+            #  ord('"'): '',
+             ord('«'): '"',
+             ord('»'): '"',
+             ord('ѳ'): 'ø',
+        }
 
-    print(book_chapter_indexes)
-    chapters = []
-    for idx in range(0,len(book_chapter_indexes)):
-        chapter_index = book_chapter_indexes[idx]+1
-        if(idx + 1 < len(book_chapter_indexes)):
-            index_before_next_book = book_chapter_indexes[idx + 1]
-            # chapters.append(target[chapter_index:index_before_next_book])
-            new_df = pd.DataFrame([], columns=['spa_text','origin_details'])
-            new_df['spa_text'] =  target[chapter_index:index_before_next_book]
-            new_df['origin_details'] = target[book_chapter_indexes[idx]]
+book_verses = []
+current_book = books[0][0]
+books_list = []
+
+for book in books:
+    for chapter in range(1, book[1]+1):
+        books_list.append(f"{book[0]} {chapter}")
+    
+for line in target:
+    if line in books_list:
+        # print(current_book)
+        # new_df = pd.DataFrame([], columns=['spa_text','origin_details'])
+        # new_df['spa_text'] =  book_verses
+        # new_df['origin_details'] = current_book
+        current_book = line
+        # book_verses = []
+    else:
+        df = pd.concat([df, pd.DataFrame({
+            # takes the string part from e.g "3  Y Juan dijo: ...", strips and translates/reduces symbols
+            'spa_text': ' '.join(str(line).split('  ')[1:]).strip().translate(trans_dict), 
+            'origin_details': str(current_book)
+            }, index=[0])])
+        # book_verses.append(line)
+
+# for book in books:
+#     book_name = book[0]
+#     book_chapters = book[1]
+#     book_chapter_indexes = []
+#     for book_chapter in range(1, book_chapters+1):
+#         book_title = f'{book_name} {book_chapter}'
+#         book_chapter_indexes.append(target.index(book_title))
+
+#     print(book_chapter_indexes)
+#     chapters = []
+#     for idx in range(0,len(book_chapter_indexes)):
+#         chapter_index = book_chapter_indexes[idx]+1
+#         if(idx + 1 < len(book_chapter_indexes)):
+#             index_before_next_book = book_chapter_indexes[idx + 1]
+#             # chapters.append(target[chapter_index:index_before_next_book])
+#             new_df = pd.DataFrame([], columns=['spa_text','origin_details'])
+#             new_df['spa_text'] =  target[chapter_index:index_before_next_book]
+#             new_df['origin_details'] = target[book_chapter_indexes[idx]]
         # for chapter in chapters:
         #     file_df = pd.DataFrame(list(zip(chapter, source_lines, )),
         #         columns =['verses', 'source'])
         #     file_df['origin'] = file
-            df = pd.concat([df, new_df])
+    #         df = pd.concat([df, new_df])
 
-    print(df)
+    # print(df)
 # Save to TXT
 # with open(f'cleaned_{inputfilename}.txt', 'w', encoding="utf-8") as f:
 #     for line in lines: 
