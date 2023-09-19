@@ -23,8 +23,7 @@ wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
-*.egg
-MANIFEST
+*.egg}
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -76,7 +75,7 @@ docs/_build/
 target/
 
 # Jupyter Notebook
-.ipynb_checkpoints
+# .ipynb_checkpoints
 
 # IPython
 profile_default/
